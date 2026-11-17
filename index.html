@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AF6 · Empresas para prácticas profesionales</title>
+<meta name="description" content="Empresas de ciberseguridad y soporte TI donde David, estudiante de la FIME UANL, quiere trabajar o hacer prácticas profesionales.">
+<meta name="theme-color" content="#06090e">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- Íconos reutilizables -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-term" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></symbol>
+  <symbol id="i-money" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></symbol>
+</svg>
+
+<!-- Lluvia de código: fondo de toda la página -->
+<canvas id="matrix" aria-hidden="true"></canvas>
+
+<a class="skip" href="#trabajo">Saltar al contenido</a>
+
+<nav class="topbar" aria-label="Secciones">
+  <div class="wrap topbar-in">
+    <a class="brand" href="#top"><span class="c-neon">david@fime</span><span class="c-dim">:~$</span></a>
+    <ul>
+      <li><a href="#trabajo">trabajo</a></li>
+      <li><a href="#practicas">prácticas</a></li>
+      <li><a href="#tabla">tabla</a></li>
+      <li><a href="#sueldos">sueldos</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header id="top">
+  <div class="wrap hero">
+    <p class="prompt"><span class="c-neon">david@fime</span>:<span class="c-cyan">~/carrera/ciberseguridad</span>$ ./empresas.sh</p>
+    <h1>
+      <span class="sr-only">Empresas de ciberseguridad en las que me gustaría trabajar</span>
+      <span id="typed" aria-hidden="true"></span><span class="cursor" aria-hidden="true"></span>
+    </h1>
+    <p class="lede">Puestos de ciberseguridad y soporte TI en México, con la sede más cercana a Monterrey, el sueldo cuando hay dato público y un enlace a la página oficial de cada empresa.</p>
+    <p class="author">David · Ingeniería en Tecnología de Software · FIME, UANL</p>
+
+    <dl class="stats">
+      <div><dt>Para trabajar</dt><dd id="n-trabajo">6</dd></div>
+      <div><dt>Para prácticas</dt><dd id="n-practicas">3</dd></div>
+      <div><dt>Con sede en MTY</dt><dd id="n-mty">0</dd></div>
+    </dl>
+  </div>
+</header>
+
+<main>
+  <section id="trabajo" aria-labelledby="h-trabajo">
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="sec-num">01</p>
+        <h2 id="h-trabajo">Empresas donde me gustaría trabajar</h2>
+        <p class="sec-sub">Sede global, oficinas en México, puesto de interés y sueldo.</p>
+      </header>
+      <div class="grid" id="cards"></div>
+    </div>
+  </section>
+
+  <section id="practicas" aria-labelledby="h-practicas">
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="sec-num">02</p>
+        <h2 id="h-practicas">Empresas donde me gustaría hacer prácticas profesionales</h2>
+        <p class="sec-sub">Empresas con presencia en Monterrey, por área de prácticas.</p>
+      </header>
+      <div class="grid" id="cards-practicas"></div>
+    </div>
+  </section>
+
+  <section id="tabla" aria-labelledby="h-tabla">
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="sec-num">03</p>
+        <h2 id="h-tabla">Tabla comparativa</h2>
+        <p class="sec-sub">Las empresas para trabajar, lado a lado.</p>
+      </header>
+      <div class="terminal">
+        <div class="term-bar">
+          <span class="dot" aria-hidden="true"></span><span class="dot" aria-hidden="true"></span><span class="dot" aria-hidden="true"></span>
+          <span class="term-title">bash — comparativa.txt</span>
+        </div>
+        <p class="term-cmd">$ cat comparativa.txt <span class="c-dim">| column -t</span></p>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Tabla comparativa, desplazable">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Empresa</th>
+                <th scope="col">Sede global · Fundación</th>
+                <th scope="col">Oficinas en México</th>
+                <th scope="col">Puesto de interés</th>
+                <th scope="col">Sueldo</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sueldos" aria-labelledby="h-sueldos">
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="sec-num">04</p>
+        <h2 id="h-sueldos">Sueldos de ciberseguridad en Monterrey</h2>
+        <p class="sec-sub">Rango mensual bruto en MXN por nivel.</p>
+      </header>
+      <figure class="chart" id="chart">
+        <div id="bars"></div>
+        <div class="axis" aria-hidden="true">
+          <span></span>
+          <div class="axis-scale"><span>$0</span><span>$27K</span><span>$54K</span><span>$81K</span><span>$108K</span></div>
+        </div>
+        <figcaption class="note">Fuentes: Glassdoor y Jobrise 2026. Las cifras son aproximadas y cambian según la fuente.</figcaption>
+      </figure>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-in">
+    <span><span class="c-neon">&lt;/&gt;</span> David · 2026</span>
+    <span class="c-dim">AF6 · Prácticas profesionales</span>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
