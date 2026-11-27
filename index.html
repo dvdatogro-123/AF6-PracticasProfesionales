@@ -21,17 +21,20 @@
   <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></symbol>
   <symbol id="i-money" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
 </svg>
 
 <!-- Lluvia de código: fondo de toda la página -->
 <canvas id="matrix" aria-hidden="true"></canvas>
 
-<a class="skip" href="#trabajo">Saltar al contenido</a>
+<a class="skip" href="#fotos">Saltar al contenido</a>
 
 <nav class="topbar" aria-label="Secciones">
   <div class="wrap topbar-in">
     <a class="brand" href="#top"><span class="c-neon">david@2144813</span><span class="c-dim">:~$</span></a>
     <ul>
+      <li><a href="#fotos">fotos</a></li>
       <li><a href="#trabajo">trabajo</a></li>
       <li><a href="#practicas">prácticas</a></li>
       <li><a href="#tabla">tabla</a></li>
@@ -50,6 +53,18 @@
     <p class="lede">Puestos de ciberseguridad y soporte TI en México, con la sede más cercana a Monterrey, el sueldo cuando hay dato público y un enlace a la página oficial de cada empresa.</p>
     <p class="author">David · Ingeniería en Tecnología de Software · FIME, UANL</p>
 
+    <div class="hero-actions">
+      <form class="buscador" id="buscador" role="search" aria-label="Buscar empresa">
+        <label for="q"><span class="c-neon">$</span> buscar</label>
+        <input id="q" name="q" type="search" list="lista-empresas" placeholder="Cisco, LEGO, Scitum…" autocomplete="off" required>
+        <datalist id="lista-empresas"></datalist>
+        <button type="submit"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><span>Ir</span></button>
+      </form>
+      <a class="btn btn-pia" id="btn-pia" href="#" target="_blank" rel="noopener noreferrer">
+        <svg class="ic" aria-hidden="true"><use href="#i-folder"/></svg><span>Ver nuestro PIA</span><svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg><span class="sr-only">(se abre en otra pestaña)</span>
+      </a>
+    </div>
+
     <dl class="stats">
       <div><dt>Para trabajar</dt><dd id="n-trabajo">6</dd></div>
       <div><dt>Para prácticas</dt><dd id="n-practicas">3</dd></div>
@@ -59,10 +74,35 @@
 </header>
 
 <main>
-  <section id="trabajo" aria-labelledby="h-trabajo">
+  <section id="fotos" aria-labelledby="h-fotos">
     <div class="wrap">
       <header class="sec-head">
         <p class="sec-num">01</p>
+        <h2 id="h-fotos">La ciberseguridad en la práctica</h2>
+        <p class="sec-sub">Así se ve el trabajo en un centro de operaciones de seguridad (SOC): monitoreo, análisis y respuesta a incidentes.</p>
+      </header>
+      <div class="galeria">
+        <figure class="foto foto-grande">
+          <img src="img/fotos/soc.jpg" width="1100" height="619" loading="lazy" alt="Analistas frente a varias pantallas con mapas y alertas de red en un centro de operaciones de ciberseguridad">
+          <figcaption><span class="c-neon">soc/</span> Monitoreo de amenazas en tiempo real</figcaption>
+        </figure>
+        <figure class="foto">
+          <img src="img/fotos/analistas.jpg" width="1100" height="733" loading="lazy" alt="Equipo de defensa de red trabajando en laptops durante un ejercicio de ciberseguridad">
+          <figcaption><span class="c-neon">red-team/</span> Ejercicio de defensa de red</figcaption>
+        </figure>
+        <figure class="foto">
+          <img src="img/fotos/equipo.jpg" width="1100" height="735" loading="lazy" alt="Tres analistas revisan juntos un incidente en el monitor de una computadora">
+          <figcaption><span class="c-neon">incidentes/</span> Análisis de un incidente en equipo</figcaption>
+        </figure>
+      </div>
+      <p class="note">Fotos de dominio público (Fuerza Aérea y Guardia Nacional de EE. UU.) vía Wikimedia Commons.</p>
+    </div>
+  </section>
+
+  <section id="trabajo" aria-labelledby="h-trabajo">
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="sec-num">02</p>
         <h2 id="h-trabajo">Empresas donde me gustaría trabajar</h2>
         <p class="sec-sub">Sede global, oficinas en México, puesto de interés y sueldo.</p>
       </header>
@@ -73,7 +113,7 @@
   <section id="practicas" aria-labelledby="h-practicas">
     <div class="wrap">
       <header class="sec-head">
-        <p class="sec-num">02</p>
+        <p class="sec-num">03</p>
         <h2 id="h-practicas">Empresas donde me gustaría hacer prácticas profesionales</h2>
         <p class="sec-sub">Empresas con presencia en Monterrey, por área de prácticas.</p>
       </header>
@@ -84,7 +124,7 @@
   <section id="tabla" aria-labelledby="h-tabla">
     <div class="wrap">
       <header class="sec-head">
-        <p class="sec-num">03</p>
+        <p class="sec-num">04</p>
         <h2 id="h-tabla">Tabla comparativa</h2>
         <p class="sec-sub">Las empresas para trabajar, lado a lado.</p>
       </header>
@@ -115,7 +155,7 @@
   <section id="sueldos" aria-labelledby="h-sueldos">
     <div class="wrap">
       <header class="sec-head">
-        <p class="sec-num">04</p>
+        <p class="sec-num">05</p>
         <h2 id="h-sueldos">Sueldos de ciberseguridad en Monterrey</h2>
         <p class="sec-sub">Rango mensual bruto en MXN por nivel.</p>
       </header>
@@ -134,6 +174,7 @@
 <footer class="footer">
   <div class="wrap footer-in">
     <span><span class="c-neon">&lt;/&gt;</span> David · 2026</span>
+    <a class="footer-pia" id="footer-pia" href="#" target="_blank" rel="noopener noreferrer">PIA del equipo ↗</a>
     <span class="c-dim">AF6 · Prácticas profesionales</span>
   </div>
 </footer>

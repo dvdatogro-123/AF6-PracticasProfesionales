@@ -1,39 +1,46 @@
+/* =========================================================
+   LINK DEL PIA: cambia SOLO esta línea para que el botón
+   "Ver nuestro PIA" (y el del pie de página) apunten a otra página.
+   ========================================================= */
+const PIA_URL = "https://dvdatogro-123.github.io/PIA_PROGWEB_EQ1/";
+
 /* ---------- Datos ----------
    link:   página oficial sobre el tema/puesto de la tarjeta
    cerca:  sede más cercana a Monterrey (texto)
-   mapa:   búsqueda que se manda a Google Maps para el mapita */
+   mapa:   búsqueda que se manda a Google Maps para el mapita
+   logo:   imagen en img/logos/ (si no hay, se muestran las iniciales) */
 const trabajo = [
-  { nombre:"Google", sede:"Mountain View, CA · 1998",
+  { nombre:"Google", logo:"img/logos/google.png", sede:"Mountain View, CA · 1998",
     mx:"CDMX (Centro de Excelencia de Ingeniería)",
     puesto:"Security Engineer / Detection & Response",
     sueldo:"Sin dato público para México", na:true, mty:false,
     link:"https://cloud.google.com/security", linkTxt:"Google Cloud Security",
     cerca:"Google México · CDMX", mapa:"Google México, Montes Urales 445, Lomas de Chapultepec, CDMX" },
-  { nombre:"IBM", sede:"Armonk, NY · 1911",
+  { nombre:"IBM", logo:"img/logos/ibm.svg", sede:"Armonk, NY · 1911",
     mx:"Guadalajara (campus desde 1975, nube híbrida e IA) y CDMX",
     puesto:"SOC Analyst / X-Force",
     sueldo:"Sin dato específico", na:true, mty:false,
     link:"https://www.ibm.com/x-force", linkTxt:"IBM X-Force",
     cerca:"IBM México · Santa Fe, CDMX", mapa:"IBM México, Santa Fe, Ciudad de México" },
-  { nombre:"Cisco", sede:"San José, CA · 1984",
+  { nombre:"Cisco", logo:"img/logos/cisco.svg", sede:"San José, CA · 1984",
     mx:"CDMX (Cisco Support Center), Guadalajara y Monterrey",
     puesto:"Technical Support Engineer – Security (TAC)",
     sueldo:"~$32,000 MXN/mes (rango $30K–$44K)", na:false, mty:true,
     link:"https://www.cisco.com/c/en/us/products/security/index.html", linkTxt:"Cisco Security",
     cerca:"Cisco · Monterrey", mapa:"Cisco Systems, Monterrey, Nuevo León" },
-  { nombre:"Palo Alto Networks", sede:"Santa Clara, CA · 2005",
+  { nombre:"Palo Alto Networks", logo:"img/logos/paloalto.png", sede:"Santa Clara, CA · 2005",
     mx:"CDMX",
     puesto:"Technical Support / Systems Engineer",
     sueldo:"Sin dato específico", na:true, mty:false,
     link:"https://www.paloaltonetworks.com/network-security", linkTxt:"Network Security",
     cerca:"Palo Alto Networks · CDMX", mapa:"Palo Alto Networks, Ciudad de México" },
-  { nombre:"Microsoft", sede:"Redmond, WA · 1975",
+  { nombre:"Microsoft", logo:"img/logos/microsoft.png", sede:"Redmond, WA · 1975",
     mx:"CDMX, Querétaro y Monterrey (más de 1,000 empleados)",
     puesto:"Security Analyst / Identity Security (Entra ID, Active Directory)",
     sueldo:"Sin dato específico", na:true, mty:true,
     link:"https://www.microsoft.com/security/business/identity-access/microsoft-entra-id", linkTxt:"Microsoft Entra ID",
     cerca:"Microsoft · Monterrey", mapa:"Microsoft México, Monterrey, Nuevo León" },
-  { nombre:"Fortinet", sede:"Sunnyvale, CA · 2000",
+  { nombre:"Fortinet", logo:"img/logos/fortinet.png", sede:"Sunnyvale, CA · 2000",
     mx:"CDMX",
     puesto:"Technical Support Engineer – FortiGate",
     sueldo:"~$57,000 MXN/mes (rango $45K–$67K)", na:false, mty:false,
@@ -48,13 +55,13 @@ const practicas = [
     nota:"", mty:true,
     link:"https://www.scitum.com.mx/", linkTxt:"Scitum Ciberseguridad",
     cerca:"Scitum · Monterrey", mapa:"Scitum, Monterrey, Nuevo León" },
-  { nombre:"Overclockers", sede:"Monterrey, N.L.",
+  { nombre:"Overclockers", logo:"img/logos/overclockers.png", sede:"Monterrey, N.L.",
     mx:"Monterrey",
     puesto:"Soporte TI",
     nota:"Trabajo aquí actualmente", mty:true, actual:true,
     link:"https://www.overclockers.com.mx/", linkTxt:"Overclockers México",
     cerca:"Overclockers · Monterrey", mapa:"Overclockers, Monterrey, Nuevo León" },
-  { nombre:"LEGO", sede:"Billund, Dinamarca · 1932",
+  { nombre:"LEGO", logo:"img/logos/lego.png", sede:"Billund, Dinamarca · 1932",
     mx:"Planta de manufactura en Monterrey (Apodaca, N.L.)",
     puesto:"Soporte TI",
     nota:"", mty:true,
@@ -78,15 +85,22 @@ const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const row = (ic, label, val, cls = "") =>
   `<div class="row">${icon(ic)}<dt>${label}</dt><dd class="${cls}">${esc(val)}</dd></div>`;
 
+const iniciales = n => n.replace(/\(.*?\)/g, "").trim().split(/\s+/).map(w => w[0]).join("").slice(0, 2).toUpperCase();
+const logo = (e, cls = "logo") => e.logo
+  ? `<span class="${cls}"><img src="${esc(e.logo)}" alt="Logo de ${esc(e.nombre)}" loading="lazy"></span>`
+  : `<span class="${cls} logo-ini" role="img" aria-label="Logo de ${esc(e.nombre)}">${esc(iniciales(e.nombre))}</span>`;
+const sinAcentos = t => t.normalize("NFD").replace(/[̀-ͯ]/g, "");
+const slug = n => sinAcentos(n).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
 const tag = e =>
   e.actual ? `<span class="tag tag-actual">Actual</span>`
   : e.mty ? `<span class="tag">MTY</span>` : "";
 
 const card = (e, i, cuerpo) => `
-  <article class="card">
+  <article class="card" id="emp-${slug(e.nombre)}">
     <header class="card-head">
-      <span class="card-idx" aria-hidden="true">${pad(i + 1)}</span>
-      <h3>${esc(e.nombre)}</h3>
+      ${logo(e)}
+      <h3><span class="card-idx" aria-hidden="true">${pad(i + 1)}</span>${esc(e.nombre)}</h3>
       ${tag(e)}
     </header>
     <dl class="rows">${cuerpo}</dl>
@@ -95,7 +109,7 @@ const card = (e, i, cuerpo) => `
       <iframe title="Mapa de ${esc(e.cerca)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
         src="https://www.google.com/maps?q=${encodeURIComponent(e.mapa)}&output=embed"></iframe>
     </div>
-    <a class="btn" href="${esc(e.link)}" target="_blank" rel="noopener noreferrer">
+    <a class="btn btn-oficial" data-empresa="${esc(e.nombre)}" href="${esc(e.link)}" target="_blank" rel="noopener noreferrer">
       <span>${esc(e.linkTxt)}</span>${icon("arrow")}<span class="sr-only">(se abre en otra pestaña)</span>
     </a>
   </article>`;
@@ -122,12 +136,54 @@ document.getElementById("n-mty").textContent = [...trabajo, ...practicas].filter
 /* ---------- Tabla ---------- */
 document.getElementById("tbody").innerHTML = trabajo.map(e => `
   <tr>
-    <th scope="row">${esc(e.nombre)}${e.mty ? '<span class="mini-mty">MTY</span>' : ""}</th>
+    <th scope="row"><span class="th-emp">${logo(e, "logo logo-sm")}${esc(e.nombre)}</span>${e.mty ? '<span class="mini-mty">MTY</span>' : ""}</th>
     <td>${esc(e.sede)}</td>
     <td>${esc(e.mx)}</td>
     <td>${esc(e.puesto)}</td>
     <td class="money ${e.na ? "na" : ""}">${esc(e.sueldo)}</td>
   </tr>`).join("");
+
+/* ---------- ALERTAS ---------- */
+const todas = [...trabajo, ...practicas];
+const normal = t => sinAcentos(t).toLowerCase().trim();
+const abrir = url => window.open(url, "_blank", "noopener");
+
+// 1) Buscador: si encuentra la empresa, una alerta pregunta si quieres ir a su página oficial
+document.getElementById("lista-empresas").innerHTML =
+  todas.map(e => `<option value="${esc(e.nombre)}"></option>`).join("");
+
+document.getElementById("buscador").addEventListener("submit", ev => {
+  ev.preventDefault();
+  const q = normal(document.getElementById("q").value);
+  if (!q) return;
+  const e = todas.find(x => normal(x.nombre).includes(q) || q.includes(normal(x.nombre.split(" ")[0])));
+  if (!e) {
+    alert(`No encontré "${q}" en mi lista de empresas.\n\nPrueba con alguna de estas:\n• ${todas.map(x => x.nombre).join("\n• ")}`);
+    return;
+  }
+  if (confirm(`Empresa encontrada: ${e.nombre}\nPuesto / área: ${e.puesto}\n\n¿Quieres ir a su página oficial?\n${e.link}`)) {
+    abrir(e.link);
+  } else {
+    const card = document.getElementById("emp-" + slug(e.nombre));
+    card.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+    card.classList.remove("destacar"); void card.offsetWidth; card.classList.add("destacar");
+  }
+});
+
+// 2) Botones de página oficial: alerta antes de salir del sitio
+document.addEventListener("click", ev => {
+  const a = ev.target.closest("a.btn-oficial");
+  if (a && !confirm(`Vas a salir de esta página para visitar el sitio oficial de ${a.dataset.empresa}.\n\n¿Continuar?`)) ev.preventDefault();
+});
+
+// 3) Botones del PIA: alerta y redirección a la página del PIA
+["btn-pia", "footer-pia"].forEach(id => {
+  const a = document.getElementById(id);
+  a.href = PIA_URL;
+  a.addEventListener("click", ev => {
+    if (!confirm("Vas a ir a la página de nuestro PIA (Programación Web, equipo 1).\n\n¿Quieres continuar?")) ev.preventDefault();
+  });
+});
 
 /* ---------- Barras (se animan con transform en CSS) ---------- */
 const MAX = 108000;
@@ -148,7 +204,7 @@ document.getElementById("bars").innerHTML = sueldos.map((s, i) => {
 }).join("");
 
 /* ---------- Aparición al hacer scroll ---------- */
-const targets = document.querySelectorAll(".sec-head, .card, .terminal, .chart");
+const targets = document.querySelectorAll(".sec-head, .card, .terminal, .chart, .foto");
 targets.forEach(el => el.classList.add("reveal"));
 const io = new IntersectionObserver(entries => {
   entries.forEach(en => {
